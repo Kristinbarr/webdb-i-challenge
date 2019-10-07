@@ -48,7 +48,16 @@ router.post('/', (req, res) => {
 })
 
 router.put('/:id', (req, res) => {
-
+  const changes = req.body
+  db('accounts')
+    .where('id', req.params.id) // filter first, target the right values
+    .update(changes) //
+    .then((count) => {
+      res.status(200).json({ message: `updated ${count} records` })
+    })
+    .catch((err) => {
+      res.json(err)
+    })
 })
 
 router.delete('/:id', (req, res) => {
