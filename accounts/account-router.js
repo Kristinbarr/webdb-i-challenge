@@ -38,7 +38,7 @@ router.post('/', (req, res) => {
       db('accounts')
         .where({ id })
         .first()
-        .then(account => {
+        .then((account) => {
           res.status(200).json(account)
         })
     })
@@ -51,6 +51,16 @@ router.put('/:id', (req, res) => {
 
 })
 
-router.delete('/:id', (req, res) => {})
+router.delete('/:id', (req, res) => {
+  db('accounts')
+    .where({ id: req.params.id })
+    .del()
+    .then((count) => {
+      res.status(200).json({ message: `deleted ${count} records` })
+    })
+    .catch((err) => {
+      res.json(err)
+    })
+})
 
 module.exports = router
